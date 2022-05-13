@@ -33,26 +33,29 @@ jobs:
     # The type of runner that the job will run on
 
     runs-on: ubuntu-latest
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
 
     steps:
-      - name: Cache Docker layers
-
-        uses: actions/cache@v2
-
-        with:
-
-          path: /tmp/.buildx-cache
-
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-
-          restore-keys: |
-
-            ${{ runner.os }}-buildx-.    
-      - name: Check Out Repo 
-
+      
+      -
+        name: Checkout
         uses: actions/checkout@v2
+      -       
+        name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      -     
+        name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+           
+
+
 
       - name: Login to Docker Hub
 
